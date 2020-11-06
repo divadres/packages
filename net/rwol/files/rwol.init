@@ -1,0 +1,28 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2015 OpenWrt.org
+
+START=90
+STOP=10
+
+USE_PROCD=1
+
+reload_service() {
+        restart
+}
+
+start_service() {
+	 procd_open_instance
+	 procd_set_param command /usr/lib/rwol/service.sh
+	 procd_append_param command start
+	 procd_close_instance
+}
+
+stop_service()
+{
+	/usr/lib/rwol/service.sh stop
+}
+
+service_triggers()
+{
+	procd_add_reload_trigger "rwol"
+}
